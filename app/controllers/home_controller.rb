@@ -1,11 +1,16 @@
 class HomeController < ApplicationController
   def index
+  	vars = request.query_parameters
   	if user_signed_in?  
   		if $carro == nil
   			$carro = []
   		end
   	else
   		$carro = nil
+  	end
+  	
+  	if vars['id'] == "succesfull_register"
+  		flash.now["success"] = "Registrado exitoso, porfavor inicie sesion"
   	end
 
   	@products = JSON.parse(open("http://localhost:5000/product").read, {:symbolize_names => true})
@@ -34,7 +39,7 @@ class HomeController < ApplicationController
 								:telefono => data['telefono'])
 		end
 	end
-  	redirect_to controller: 'home', action: 'index'
+  	redirect_to controller: 'home', action: 'index', id: "succesfull_register"
   end
 
   def showPerfil

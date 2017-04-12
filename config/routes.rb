@@ -8,7 +8,7 @@ Rails.application.routes.draw do
 
   get "prepurchase", to: "home#prepurchase", as: "prepurchase"
 
-  root 'home#index'
+  root 'home#index', as: "root"
 
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html

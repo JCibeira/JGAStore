@@ -55,7 +55,11 @@
     <!-- Page Content -->
     <div class="container">
         <div class="row">
-            
+            <% flash.each do |name, msg| %>
+                <div class="alert alert-success">
+                    <%= msg %>
+                </div>
+            <% end %>
             <%= yield %>
     	</div>
     </div>
