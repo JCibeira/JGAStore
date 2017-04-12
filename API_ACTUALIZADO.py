@@ -260,11 +260,31 @@ class InfoUser(Resource):
 		return errors['RecursoNoExistente'], 404
 
 
+class MultipleProducts(Resource):
+	def post(self):
+		productos = request.get_json()
+
+		if(productos['ids'] != None):
+			con = mysql.connect()
+			cursor = con.cursor()
+
+			sql='SELECT * FROM producto WHERE idProducto IN (%s)' 
+			in_p=', '.join(list(map(lambda x: '%s', productos['ids'])))
+			sql = sql % in_p
+
+			cursor.execute(sql, productos['ids'])
+			productos_general = cursor.fetchall()
+
+			return ([dict(id=producto[0], nombre=producto[1], descripcion=producto[2], foto=producto[3], precio=producto[4], cantVendida=producto[5], idCategoria=producto[6], product_value=True) for producto in productos_general])
+		else:
+			return errors['ProductoNotFound'], 404 #REVISAR
+
 
 api.add_resource(Register, '/register')
 api.add_resource(Login, '/login')
 api.add_resource(Product, '/product/<string:idP>', endpoint='prod_ep')
 api.add_resource(ProductList, '/product')
+api.add_resource(MultipleProducts, '/products')
 api.add_resource(InfoUser, '/user')
 
 

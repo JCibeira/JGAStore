@@ -1,5 +1,13 @@
 class HomeController < ApplicationController
   def index
+  	if user_signed_in?  
+  		if $carro == nil
+  			$carro = []
+  		end
+  	else
+  		$carro = nil
+  	end
+
   	@products = JSON.parse(open("http://localhost:5000/product").read, {:symbolize_names => true})
   end
 
@@ -30,7 +38,23 @@ class HomeController < ApplicationController
   end
 
   def showPerfil
+  	$carro = [1,2]
   	render(:action => 'perfil')
+  end
+
+  def prepurchase
+  	@data = []
+  	if($carro.size != 0)
+  		puts("AYUDA PORFAVOR")
+	  	uri = URI('http://localhost:5000/products')
+		req = Net::HTTP::Post.new(uri, 'Content-Type' => 'application/json')
+		req.body = {ids: $carro}.to_json
+		res = Net::HTTP.start(uri.hostname, uri.port) do |http|
+			http.request(req)
+		end
+		@data = JSON.parse(res.body) #Aqui esta la respuesta del API
+	end
+  	render(:action => 'precompra')
   end
   	
 end

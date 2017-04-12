@@ -6,6 +6,8 @@ Rails.application.routes.draw do
 
   get "perfil", to: "home#showPerfil", as: "showPerfil"
 
+  get "prepurchase", to: "home#prepurchase", as: "prepurchase"
+
   root 'home#index'
 
 
