@@ -48,23 +48,24 @@
     <div class="row">
     	<% @products.each do |product| %>
 	        <a href="/producto/<%= product[:id] %>">
-	        <div class="col-xs-8 col-sm-6 col-lg-4 col-md-6" style='min-width:290px'>
-	            <div class="thumbnail product">
-	            	<div style='height:150px'>
-	            		<% if product[:foto] != nil %>
-	                		<img src='<%=product[:foto]%>' style='height:100%'alt="">
-		                <% else %>
-		                	<img src="http://placehold.it/320x150" style='height:100%' alt="">
-		                <% end %>
-	                </div>
-	                <div class="caption">
-	                    <h4 class="pull-right"><%=product[:precio]%> Bs.</h4>
-	                    <h4><%= product[:nombre] %>
-	                    </h4>
-	                    <p><%=product[:descripcion]%></p>
-	                </div>
-	            </div>
-	        </div></a>
+		        <div class="col-xs-8 col-sm-6 col-lg-4 col-md-6" style='min-width:290px'>
+		            <div class="thumbnail product">
+		            	<div style='height:150px'>
+		            		<% if product[:foto] != nil %>
+		                		<img src='<%=product[:foto]%>' style='height:100%'alt="">
+			                <% else %>
+			                	<img src="http://placehold.it/320x150" style='height:100%' alt="">
+			                <% end %>
+		                </div>
+		                <div class="caption">
+		                    <h4 class="pull-right"><%=product[:precio]%> Bs.</h4>
+		                    <h4><%= product[:nombre] %>
+		                    </h4>
+		                    <p><%=product[:descripcion]%></p>
+		                </div>
+		            </div>
+		        </div>
+	    	</a>
 	    <% end %>
     </div>
 
