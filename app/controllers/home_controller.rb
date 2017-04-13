@@ -7,12 +7,12 @@ class HomeController < ApplicationController
   		end
   	else
       session[:test] = nil
-  	end
+    end
 
   	@products = JSON.parse(open("http://localhost:5000/product").read, {:symbolize_names => true})
 
   	if vars['action_do'] == "succesfull_register"
-  		flash.now["success"] = "Registro exitoso, por favor inicie sesion"
+  		flash.now["success"] = "Registro exitoso, por favor inicie sesión"
 
   	elsif vars['action_do'] == "succesfull_add"
   		flash.now["success"] = "Producto agregado al carro exitosamente"
@@ -68,8 +68,8 @@ class HomeController < ApplicationController
   end
   
   def showProduct
-	product_id = params[:id]
-	@product = JSON.parse(open("http://localhost:5000/product/"+product_id).read, {:symbolize_names => true})
+  	product_id = params[:id]
+  	@product = JSON.parse(open("http://localhost:5000/product/"+product_id).read, {:symbolize_names => true})
   	render(:action => 'product')
   end
 
@@ -83,7 +83,6 @@ class HomeController < ApplicationController
 
   def deleteCarro
   	session[:test].delete((params[:id]).to_i)
-
   	redirect_to controller: 'home', action: 'index', action_do: "succesfull_delete"
 
   end

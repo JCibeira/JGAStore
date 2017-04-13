@@ -32,13 +32,13 @@
                 </div>
                 <ul class="nav navbar-nav navbar-right">
                     <% if user_signed_in? %>
-                        <li> <%= link_to "Perfil", showPerfil_path %></li>
+                        <li> <%= link_to "<span class='glyphicon glyphicon-user'></span> Perfil".html_safe, showPerfil_path %></li>
                         <li><div class="circle"><%= session[:test].size %></div></li> 
                         <li><a href="/prepurchase"><span class="glyphicon glyphicon-shopping-cart"></span></a></li>
-                        <li> <%= link_to "Cerrar sesion", destroy_user_session_path, :method => 'delete' %></li>
+                        <li> <%= link_to "<span class='glyphicon glyphicon-off'></span>  Cerrar sesión".html_safe, destroy_user_session_path, :method => 'delete' %></li>
                 
                     <% else %>
-                        <li> <%= link_to 'Inicia sesion', new_user_session_path%></li>
+                        <li> <%= link_to 'Inicia sesión', new_user_session_path%></li>
                         <li> <%= link_to 'Registrate', new_user_registration_path %></li>
                     <% end %>
 				</ul>

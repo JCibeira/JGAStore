@@ -13,6 +13,7 @@
  *= require_tree .
  *= require_self
  */
+ 
 .circle:hover
 {
  width: 25px;
