@@ -9,7 +9,7 @@ default: &default
   encoding: utf8
   pool: 5
   username: root
-  password: 1234 #Cambiar por lo que corresponda
+  password: 123 #Cambiar por lo que corresponda
   host: localhost
 
 development:

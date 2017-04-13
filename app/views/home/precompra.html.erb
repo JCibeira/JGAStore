@@ -4,8 +4,9 @@
  <div class="row">
  	<% if @data.size != 0 %>
     	<% @data.each do |product| %>
+    	 <a href="/producto/<%= product['id'] %>">
 	        <div class="col-sm-6 col-lg-6 col-md-6">
-	            <div class="thumbnail">
+	            <div class="thumbnail product">
 	                <img src="http://placehold.it/320x150" alt="">
 	                <div class="caption">
 	                    <h4 class="pull-right"><%=product['precio']%> Bs.</h4>
@@ -15,6 +16,7 @@
 	                </div>
 	            </div>
 	        </div>
+	     </a>
 	    <% end %>
 	    <div class="col-sm-12 col-lg-12 col-md-12">
 	    	<center><button class="btn btn-success"><strong>CONFIRMAR COMPRA</strong></button></center>
