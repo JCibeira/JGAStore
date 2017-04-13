@@ -8,13 +8,20 @@ class HomeController < ApplicationController
   	else
   		$carro = nil
   	end
-  	
-  	if vars['id'] == "succesfull_register"
-  		flash.now["success"] = "Registrado exitoso, porfavor inicie sesion"
-  	end
 
   	@products = JSON.parse(open("http://localhost:5000/product").read, {:symbolize_names => true})
+
+  	if vars['action_do'] == "succesfull_register"
+  		flash.now["success"] = "Registro exitoso, por favor inicie sesion"
+
+  	elsif vars['action_do'] == "succesfull_add"
+  		flash.now["success"] = "Producto agregado al carro exitosamente"
+
+  	elsif vars['action_do'] == "succesfull_delete"
+		flash.now["success"] = "Producto eliminado del carro exitosamente"
+  	end	
   end
+
 
   def showregisterAPI
   	render(:action => 'registro')
@@ -39,18 +46,16 @@ class HomeController < ApplicationController
 								:telefono => data['telefono'])
 		end
 	end
-  	redirect_to controller: 'home', action: 'index', id: "succesfull_register"
+  	redirect_to controller: 'home', action: 'index', action_do: "succesfull_register"
   end
 
   def showPerfil
-  	$carro = [1,2]
   	render(:action => 'perfil')
   end
 
   def prepurchase
   	@data = []
   	if($carro.size != 0)
-  		puts("AYUDA PORFAVOR")
 	  	uri = URI('http://localhost:5000/products')
 		req = Net::HTTP::Post.new(uri, 'Content-Type' => 'application/json')
 		req.body = {ids: $carro}.to_json
@@ -61,5 +66,26 @@ class HomeController < ApplicationController
 	end
   	render(:action => 'precompra')
   end
-  	
+  
+  def showProduct
+	product_id = params[:id]
+	@product = JSON.parse(open("http://localhost:5000/product/"+product_id).read, {:symbolize_names => true})
+  	render(:action => 'product')
+  end
+
+
+  def addCarro
+  	$carro.push((params[:id]).to_i)
+
+  	redirect_to controller: 'home', action: 'index', action_do: "succesfull_add"
+
+  end
+
+  def deleteCarro
+  	$carro.delete((params[:id]).to_i)
+
+  	redirect_to controller: 'home', action: 'index', action_do: "succesfull_delete"
+
+  end
+
 end

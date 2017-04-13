@@ -33,6 +33,7 @@
                 <ul class="nav navbar-nav navbar-right">
                     <% if user_signed_in? %>
                         <li> <%= link_to "Perfil", showPerfil_path %></li>
+                        <li><div class="circle"><%= $carro.size %></div></li> 
                         <li><a href="/prepurchase"><span class="glyphicon glyphicon-shopping-cart"></span></a></li>
                         <li> <%= link_to "Cerrar sesion", destroy_user_session_path, :method => 'delete' %></li>
                 

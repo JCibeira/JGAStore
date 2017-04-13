@@ -8,6 +8,11 @@ Rails.application.routes.draw do
 
   get "prepurchase", to: "home#prepurchase", as: "prepurchase"
 
+  get "producto/:id", to: "home#showProduct", as: "producto"
+
+  post "producto/:id", to: "home#addCarro", as: "addcar"
+  delete "producto/:id", to: "home#deleteCarro", as: "deletecar"
+
   root 'home#index', as: "root"
 
 
