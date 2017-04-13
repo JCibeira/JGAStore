@@ -3,15 +3,24 @@
     <p class="lead">JGA Store</p>
     <p>Categorias:</p>
     <div class="list-group">
-        <a href="#" class="list-group-item">Celulares</a>
-        <a href="#" class="list-group-item">Videojuegos</a>
-        <a href="#" class="list-group-item">Deportes</a>
+        <a href="categoria/1" class="list-group-item">Celulares</a>
+        <a href="categoria/2" class="list-group-item">Videojuegos</a>
+        <a href="categoria/3" class="list-group-item">Deportes</a>
     </div>
 
     <p>Ordena:</p>
     <div class="list-group">
-        <a href="#" class="list-group-item">Alfabeticamente</a>
-        <a href="#" class="list-group-item">Precio</a>
+    	<% if session[:alfabeticamente] == 1 %>
+        	<a href="orden/alfabeticamente/<%= session[:alfabeticamente] %>" class="list-group-item">Alfabeticamente DESC</a>
+        <% else %>
+        	<a href="orden/alfabeticamente/<%= session[:alfabeticamente] %>" class="list-group-item">Alfabeticamente ASC</a>
+        <% end %>
+        <% if session[:precio] == 1 %>
+        	 <a href="orden/precio/<%= session[:precio] %>" class="list-group-item">Precio Mayor-Menor</a>
+        <% else %>
+        	<a href="orden/precio/<%= session[:precio] %>" class="list-group-item">Precio Menor-Mayor</a>
+        <% end %>
+       
     </div>
 </div>
 
@@ -58,10 +67,14 @@
 			                <% end %>
 		                </div>
 		                <div class="caption">
-		                    <h4 class="pull-right"><%=product[:precio]%> Bs.</h4>
+		                    <h4><%=product[:precio]%> $.</h4>
 		                    <h4><%= product[:nombre] %>
 		                    </h4>
-		                    <p><%=product[:descripcion]%></p>
+		                    <% if product[:descripcion].size <= 70 %>
+		                    	<p><%=product[:descripcion]%></p>
+		                    <% else %>
+		                    	<p>...</p>
+		                    <% end %>
 		                </div>
 		            </div>
 		        </div>

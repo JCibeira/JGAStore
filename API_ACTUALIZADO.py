@@ -57,7 +57,7 @@ success = {
     	'login_value' : True
     },
     'ProductoAgregado':{
-    	'message': "Producto agregado exitosamente",
+    	'message': "Producto creado exitosamente",
     	'status' : 200,
     	'product_value' : True
     },
@@ -209,7 +209,7 @@ class ProductList(Resource):
 		con = mysql.connect()
 		cursor = con.cursor()
 
-		cursor.execute("SELECT * FROM producto")
+		cursor.execute("SELECT * FROM producto ORDER BY cantVendida DESC")
 		data = cursor.fetchall()
 
 		return ([dict(id=producto[0], nombre=producto[1], descripcion=producto[2], foto=producto[3], precio=producto[4], cantVendida=producto[5], idCategoria=producto[6]) for producto in data])
@@ -232,7 +232,7 @@ class ProductList(Resource):
 		if ('cantVendida') not in producto:
 			producto['cantVendida'] = 0
 		if ('idCategoria') not in producto:
-			producto['idCategoria'] = None
+			producto['idCategoria'] = 1
 		if ('descripcion') not in producto:
 			producto['descripcion'] = None
 
@@ -280,10 +280,61 @@ class MultipleProducts(Resource):
 			return errors['ProductoNotFound'], 404 #REVISAR
 
 
+class Categories(Resource):
+	def get(self, idC):
+
+		con = mysql.connect()
+		cursor = con.cursor()
+
+		cursor.execute("SELECT * FROM producto WHERE idCategoria=%s", (idC))
+		productos = cursor.fetchall()
+
+		if(productos != None): return ([dict(id=producto[0], nombre=producto[1], descripcion=producto[2], foto=producto[3], precio=producto[4], cantVendida=producto[5], idCategoria=producto[6], product_value=True) for producto in productos])
+
+		return {}
+
+
+class ProductAlfabeticamente(Resource):
+	def get(self, idAlfabeticamente):
+
+		con = mysql.connect()
+		cursor = con.cursor()
+
+		if(idAlfabeticamente == str(1)):
+			cursor.execute("SELECT * FROM producto ORDER BY nombre DESC")
+		else:
+			cursor.execute("SELECT * FROM producto ORDER BY nombre ASC")
+
+		data = cursor.fetchall()
+
+		return ([dict(id=producto[0], nombre=producto[1], descripcion=producto[2], foto=producto[3], precio=producto[4], cantVendida=producto[5], idCategoria=producto[6]) for producto in data])
+
+
+
+
+class ProductPrecio(Resource):
+	def get(self, idPrecio):
+
+		con = mysql.connect()
+		cursor = con.cursor()
+
+		if(idPrecio == str(1)):
+			cursor.execute("SELECT * FROM producto ORDER BY precio DESC")
+		else:
+			cursor.execute("SELECT * FROM producto ORDER BY precio ASC")
+
+		data = cursor.fetchall()
+
+		return ([dict(id=producto[0], nombre=producto[1], descripcion=producto[2], foto=producto[3], precio=producto[4], cantVendida=producto[5], idCategoria=producto[6]) for producto in data])
+
+
 api.add_resource(Register, '/register')
 api.add_resource(Login, '/login')
 api.add_resource(Product, '/product/<string:idP>', endpoint='prod_ep')
 api.add_resource(ProductList, '/product')
+api.add_resource(ProductAlfabeticamente, '/product_alfabeticamente/<string:idAlfabeticamente>')
+api.add_resource(ProductPrecio, '/product_precio/<string:idPrecio>')
+api.add_resource(Categories, '/categories/<string:idC>')
 api.add_resource(MultipleProducts, '/products')
 api.add_resource(InfoUser, '/user')
 

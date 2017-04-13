@@ -33,7 +33,7 @@
                 <ul class="nav navbar-nav navbar-right">
                     <% if user_signed_in? %>
                         <li> <%= link_to "<span class='glyphicon glyphicon-user'></span> Perfil".html_safe, showPerfil_path %></li>
-                        <li><div class="circle"><%= session[:test].size %></div></li> 
+                        <li><div class="circle"><%= session[:carro].size %></div></li> 
                         <li><a href="/prepurchase"><span class="glyphicon glyphicon-shopping-cart"></span></a></li>
                         <li> <%= link_to "<span class='glyphicon glyphicon-off'></span>  Cerrar sesión".html_safe, destroy_user_session_path, :method => 'delete' %></li>
                 
@@ -58,7 +58,7 @@
     	</div>
     </div>
     <br>
-    <nav class="navbar-default navbar-static-bottom footer" role="navigation">
+    <nav class="navbar-default navbar-static-bottom footer">
          <div class="container">
             <div class="row row-centered margin-container">
                 <p class="footer-style">JGA Store C.A © - 2017.</p>

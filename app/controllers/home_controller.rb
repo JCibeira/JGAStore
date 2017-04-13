@@ -2,11 +2,19 @@ class HomeController < ApplicationController
   def index
   	vars = request.query_parameters
   	if user_signed_in?  
-  		if session[:test] == nil
-  			session[:test] = []
+  		if session[:carro] == nil
+  			session[:carro] = []
   		end
   	else
-      session[:test] = nil
+      session[:carro] = nil
+    end
+
+    if session[:alfabeticamente] == nil
+    	session[:alfabeticamente] = 1
+    end
+
+    if session[:precio] == nil
+    	session[:precio] = 1
     end
 
   	@products = JSON.parse(open("http://localhost:5000/product").read, {:symbolize_names => true})
@@ -19,8 +27,14 @@ class HomeController < ApplicationController
 
   	elsif vars['action_do'] == "succesfull_delete"
 		flash.now["success"] = "Producto eliminado del carro exitosamente"
+  	
+	elsif vars['action_do'] == "succesfull_addProduct"
+		flash.now["success"] = "Producto creado exitosamente"
   	end	
+
   end
+
+
 
 
   def showregisterAPI
@@ -55,15 +69,28 @@ class HomeController < ApplicationController
 
   def prepurchase
   	@data = []
-  	if(session[:test].size != 0)
+  	if(session[:carro].size != 0)
 	  	uri = URI('http://localhost:5000/products')
 		req = Net::HTTP::Post.new(uri, 'Content-Type' => 'application/json')
-		req.body = {ids: session[:test]}.to_json
+		req.body = {ids: session[:carro]}.to_json
 		res = Net::HTTP.start(uri.hostname, uri.port) do |http|
 			http.request(req)
 		end
 		@data = JSON.parse(res.body) #Aqui esta la respuesta del API
 	end
+
+	for product_in_car in session[:carro]
+		producto_esta = false
+		for product_in_api in @data
+			if product_in_car == product_in_api
+				producto_esta = true
+			end
+		end
+		if !producto_esta
+			session[:carro].delete(product_in_car)
+		end
+	end
+
   	render(:action => 'precompra')
   end
   
@@ -75,16 +102,66 @@ class HomeController < ApplicationController
 
 
   def addCarro
-  	session[:test].push((params[:id]).to_i)
+  	session[:carro].push((params[:id]).to_i)
 
   	redirect_to controller: 'home', action: 'index', action_do: "succesfull_add"
 
   end
 
   def deleteCarro
-  	session[:test].delete((params[:id]).to_i)
+  	session[:carro].delete((params[:id]).to_i)
   	redirect_to controller: 'home', action: 'index', action_do: "succesfull_delete"
 
   end
+
+  def addProducto
+	uri = URI('http://localhost:5000/product')
+	req = Net::HTTP::Post.new(uri, 'Content-Type' => 'application/json')
+	req.body = {nombre: params[:nombre], precio: params[:precio], 
+				foto: params[:foto], idCategoria: ((params[:idCategoria]).to_i), 
+				descripcion: params[:descripcion]}.to_json
+	res = Net::HTTP.start(uri.hostname, uri.port) do |http|
+		http.request(req)
+	end
+	@data = JSON.parse(res.body) #Aqui esta la respuesta del API
+
+	redirect_to controller: 'home', action: 'index', action_do: "succesfull_addProduct"
+  end
+
+
+  def showCat
+	id_categoria = params[:categoria]
+	@products = JSON.parse(open("http://localhost:5000/categories/"+id_categoria).read, {:symbolize_names => true})
+ 	
+ 	render(:action => 'showCategory')
+  end
+
+  def showAlfa
+  	if session[:alfabeticamente] == 1
+  		session[:alfabeticamente] = 2
+  	else
+  		session[:alfabeticamente] = 1
+  	end
+
+  	id_alfabeticamente = params[:id]
+  	@products = JSON.parse(open("http://localhost:5000/product_alfabeticamente/"+id_alfabeticamente).read, {:symbolize_names => true})
+  
+  	render(:action => "showAlfabeticamente")
+  end
+
+
+  def showPrec
+  	if session[:precio] == 1
+  		session[:precio] = 2
+  	else
+  		session[:precio] = 1
+  	end
+  	
+  	id_precio = params[:id]
+  	@products = JSON.parse(open("http://localhost:5000/product_precio/"+id_precio).read, {:symbolize_names => true})
+  
+  	render(:action => "showPrecio")
+  end
+
 
 end

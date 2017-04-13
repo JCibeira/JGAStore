@@ -13,6 +13,15 @@ Rails.application.routes.draw do
   post "producto/:id", to: "home#addCarro", as: "addcar"
   delete "producto/:id", to: "home#deleteCarro", as: "deletecar"
 
+
+  post "addProducto", to: "home#addProducto", as: "addProducto"
+
+  get "categoria/:categoria", to: "home#showCat", as: "showCat"
+
+  get "orden/alfabeticamente/:id", to: "home#showAlfa", as: "showAlfabeticamente"
+
+  get "orden/precio/:id", to: "home#showPrec", as: "showPrecio"
+
   root 'home#index', as: "root"
 
 
