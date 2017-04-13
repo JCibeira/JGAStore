@@ -1,0 +1,26 @@
+ 
+<center><h2>PRODUCTOS EN EL CARRO DE: <strong><%=current_user.username%></strong></h2></center>
+<br>
+ <div class="row">
+ 	<% if @data.size != 0 %>
+    	<% @data.each do |product| %>
+	        <div class="col-sm-6 col-lg-6 col-md-6">
+	            <div class="thumbnail">
+	                <img src="http://placehold.it/320x150" alt="">
+	                <div class="caption">
+	                    <h4 class="pull-right"><%=product['precio']%> Bs.</h4>
+	                    <h4><a href="#"><%= product['nombre'] %></a>
+	                    </h4>
+	                    <p><%=product['descripcion']%></p>
+	                </div>
+	            </div>
+	        </div>
+	    <% end %>
+	    <div class="col-sm-12 col-lg-12 col-md-12">
+	    	<center><button class="btn btn-success"><strong>CONFIRMAR COMPRA</strong></button></center>
+	    </div>
+	<% else %>
+		<center><h2>Actualmente no posee ningun producto en su carrito</h2></center>
+	<% end %>
+    </div>
+    
