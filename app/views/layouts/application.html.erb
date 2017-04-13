@@ -38,8 +38,8 @@
                         <li> <%= link_to "<span class='glyphicon glyphicon-off'></span>  Cerrar sesión".html_safe, destroy_user_session_path, :method => 'delete' %></li>
                 
                     <% else %>
-                        <li> <%= link_to 'Inicia sesión', new_user_session_path%></li>
-                        <li> <%= link_to 'Registrate', new_user_registration_path %></li>
+                        <li> <%= link_to "<span class='glyphicon glyphicon-log-in'></span> Inicia sesión".html_safe, new_user_session_path%></li>
+                        <li> <%= link_to "<span class='glyphicon glyphicon-user'></span> Registrate".html_safe, new_user_registration_path %></li>
                     <% end %>
 				</ul>
             </div>
