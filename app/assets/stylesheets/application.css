@@ -13,7 +13,21 @@
  *= require_tree .
  *= require_self
  */
- 
+
+@media (max-width: 767px) {
+    .col-xs-8 
+    {
+        display:inline-block;
+	    float:none;
+	    text-align:left;
+	    margin-right:-4px;
+    }
+    .row
+	{
+    	text-align:center;
+	}
+}
+
 .circle:hover
 {
  width: 25px;
