@@ -1,24 +1,11 @@
-# README
+# Fase II para el proyecto de Aplicaciones con la Tecnologia Internet II
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Para correr el proyecto solo debe clonarlo y realizar el comando rake db:migrate en su consola
 
-Things you may want to cover:
+Integrantes:
 
-* Ruby version
+Alejandro Barone
+Jesus Cibeira
+Gregorio Castro
 
-* System dependencies
 
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
