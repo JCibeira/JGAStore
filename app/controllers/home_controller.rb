@@ -33,6 +33,9 @@ class HomeController < ApplicationController
 
 	elsif vars['action_do'] == "succesfull_deleteProduct"
 		flash.now["success"] = "Producto eliminado exitosamente"
+
+	elsif vars['action_do'] == "succesfull_editProduct"
+		flash.now["success"] = "Producto editado exitosamente"
   	end	
 
   end
@@ -136,7 +139,7 @@ class HomeController < ApplicationController
   def showCat
 	id_categoria = params[:categoria]
 	@products = JSON.parse(open("http://localhost:5000/categories/"+id_categoria).read, {:symbolize_names => true})
-  @category = id_categoria.to_i
+  	@category = id_categoria.to_i
  	
  	render(:action => 'showCategory')
   end
@@ -173,7 +176,7 @@ class HomeController < ApplicationController
   	#Para borrar en caso que el producto este en el carro NO SIRVE AUN
 	for product_in_car in session[:carro]
 		if((product_in_car).to_i == (params[:id]).to_i)
-			session[:carro].delete(params[:id])
+			session[:carro].delete((params[:id]).to_i)
 		end
 	end
 
@@ -187,8 +190,80 @@ class HomeController < ApplicationController
 
   end
 
-  def updateProd
+  def updateProdshow
 
+	product_id = params[:id]
+  	@product = JSON.parse(open("http://localhost:5000/product/"+product_id).read, {:symbolize_names => true})
+  	render(:action => "updateProducto")
+
+  end
+
+  def updateProdsend
+  	uri = URI('http://127.0.0.1:5000/product/'+params[:id])
+  	req = Net::HTTP::Put.new(uri, 'Content-Type' => 'application/json')
+	req.body = {nombre: params[:nombre], precio: params[:precio], 
+				foto: params[:foto], idCategoria: ((params[:idCategoria]).to_i), 
+				descripcion: params[:descripcion]}.to_json
+	response = Net::HTTP.new(uri.host, uri.port).start {|http| http.request(req) }
+	puts response.code
+
+	redirect_to controller: 'home', action: 'index', action_do: "succesfull_editProduct"
+
+  end
+
+
+  def mostrarCheckout
+  	@data = []
+  	if(session[:carro].size != 0)
+	  	uri = URI('http://localhost:5000/products')
+		req = Net::HTTP::Post.new(uri, 'Content-Type' => 'application/json')
+		req.body = {ids: session[:carro]}.to_json
+		res = Net::HTTP.start(uri.hostname, uri.port) do |http|
+			http.request(req)
+		end
+		@data = JSON.parse(res.body) #Aqui esta la respuesta del API
+	end
+  	render(:action => "mostrarCheckout")
+
+  end
+
+  def mostrarFactura
+
+  	puts(params[:id_first_name])
+
+  	@factura = {nombre: params[:id_first_name], apellido: params[:id_last_name],
+  				dir: params[:id_address_line_1], apart: params[:id_address_line_2], 
+  				ciudad: params[:id_city], estado: params[:id_state],
+  				cod_pos: params[:codigo_postal], tel: params[:telefono],
+  				nomtar: params[:name_on_card], tarjeta: params[:card_number],
+  				expM: params[:card_exp_month], expA: params[:card_exp_year],
+  				cvc: params[:card_cvc]}
+
+
+  	@data = []
+  	if(session[:carro].size != 0)
+
+  		#Actualizo la cantVendida de los productos
+	  	uri = URI('http://localhost:5000/nueva_compra')
+		req = Net::HTTP::Post.new(uri, 'Content-Type' => 'application/json')
+		req.body = {ids: session[:carro]}.to_json
+		res = Net::HTTP.start(uri.hostname, uri.port) do |http|
+			http.request(req)
+		end
+
+		#Obtengo los productos
+	  	uri = URI('http://localhost:5000/products')
+		req = Net::HTTP::Post.new(uri, 'Content-Type' => 'application/json')
+		req.body = {ids: session[:carro]}.to_json
+		res = Net::HTTP.start(uri.hostname, uri.port) do |http|
+			http.request(req)
+		end
+		@data = JSON.parse(res.body) #Aqui esta la respuesta del API
+
+		session[:carro].clear #Limpio el carrito
+	end
+
+  	render(:action => "mostrarFactura")
   end
 
 end

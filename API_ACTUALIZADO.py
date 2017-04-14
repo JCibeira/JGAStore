@@ -223,9 +223,6 @@ class ProductList(Resource):
 		if ('nombre' not in producto) or ('precio' not in producto):
 			return errors['ErrorPeticion'], 400
 
-		cursor.execute("SELECT COUNT(*) FROM producto")
-		data = cursor.fetchone()
-		producto['idProducto'] = int(data[0]) + 1;
 
 		if ('foto') not in producto:
 			producto['foto'] = None
@@ -237,7 +234,7 @@ class ProductList(Resource):
 			producto['descripcion'] = None
 
 
-		cursor.execute("INSERT INTO producto VALUES (%s,%s,%s,%s,%s,%s,%s)", (producto['idProducto'], producto['nombre'], producto['descripcion'], producto['foto'], producto['precio'], producto['cantVendida'], producto['idCategoria']))
+		cursor.execute("INSERT INTO producto (nombre, descripcion, foto, precio, cantVendida, idCategoria) VALUES (%s,%s,%s,%s,%s,%s)", (producto['nombre'], producto['descripcion'], producto['foto'], producto['precio'], producto['cantVendida'], producto['idCategoria']))
 		con.commit()
 
 		return success['ProductoAgregado'], 200
@@ -328,12 +325,36 @@ class ProductPrecio(Resource):
 		return ([dict(id=producto[0], nombre=producto[1], descripcion=producto[2], foto=producto[3], precio=producto[4], cantVendida=producto[5], idCategoria=producto[6]) for producto in data])
 
 
+class ActualizarVenta(Resource):
+	def post(self):
+		productos = request.get_json()
+
+		if(productos['ids'] != None):
+			con = mysql.connect()
+			cursor = con.cursor()
+
+			sql='UPDATE producto SET cantVendida=cantVendida+1 WHERE idProducto IN (%s)' 
+			in_p=', '.join(list(map(lambda x: '%s', productos['ids'])))
+			sql = sql % in_p
+
+			cursor.execute(sql, productos['ids'])
+			
+			con.commit()
+			return success['ProductoEditado'], 200
+
+		else:
+			return errors['ProductoNotFound'], 404 #REVISAR
+
+
+
+
 api.add_resource(Register, '/register')
 api.add_resource(Login, '/login')
 api.add_resource(Product, '/product/<string:idP>', endpoint='prod_ep')
 api.add_resource(ProductList, '/product')
 api.add_resource(ProductAlfabeticamente, '/product_alfabeticamente/<string:idAlfabeticamente>')
 api.add_resource(ProductPrecio, '/product_precio/<string:idPrecio>')
+api.add_resource(ActualizarVenta, '/nueva_compra')
 api.add_resource(Categories, '/categories/<string:idC>')
 api.add_resource(MultipleProducts, '/products')
 api.add_resource(InfoUser, '/user')

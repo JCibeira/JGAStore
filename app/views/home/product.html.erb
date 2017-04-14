@@ -235,11 +235,11 @@
 					 <% if user_signed_in? %>
 					 	<% if !session[:carro].include?(@product[:id]) %>
 					 		<%= link_to 'Añadir <span class="glyphicon glyphicon-shopping-cart"></span>'.html_safe, addcar_path , :method => :post, :class => "add-to-cart btn btn-default"%>
-              <%= link_to 'Editar <span class="glyphicon glyphicon-edit"></span>'.html_safe, updateProducto_path , :method => :put, :class => "edit-product btn btn-default"%>
+              <%= link_to 'Editar <span class="glyphicon glyphicon-edit"></span>'.html_safe, updateProductoShow_path , :method => :get, :class => "edit-product btn btn-default"%>
               <%= link_to 'Eliminar <span class="glyphicon glyphicon-trash"></span>'.html_safe, deleteProducto_path , :method => :delete, :class => "delete-product btn btn-default"%>
 					 	<% else %>
 					 		<%= link_to 'Eliminar <span class="glyphicon glyphicon-shopping-cart"></span>'.html_safe, deletecar_path , :method => :delete, :class => "delete-to-cart btn btn-default"%>
-              <%= link_to 'Editar <span class="glyphicon glyphicon-edit"></span>'.html_safe, updateProducto_path , :method => :put, :class => "edit-product btn btn-default"%>
+              <%= link_to 'Editar <span class="glyphicon glyphicon-edit"></span>'.html_safe, updateProductoShow_path , :method => :get, :class => "edit-product btn btn-default"%>
               <%= link_to 'Eliminar <span class="glyphicon glyphicon-trash"></span>'.html_safe, deleteProducto_path , :method => :delete, :class => "delete-product btn btn-default"%>
 					 	<% end %>
 					 <% else %>

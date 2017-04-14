@@ -1,4 +1,19 @@
  
+<style type="text/css">
+	.delete-to-cart, .like {
+	background: #e2401f;
+	padding: 1.2em 1.5em;
+	border: none;
+	text-transform: UPPERCASE;
+	font-weight: bold;
+	color: white;
+	-webkit-transition: background .3s ease;
+	        transition: background .3s ease; }
+	.delete-to-cart:hover, .like:hover {
+	  background: #ed6144;
+	  color: #fff; }
+</style>
+
 <center><h2>PRODUCTOS EN EL CARRO DE: <strong><%=current_user.username%></strong></h2></center>
 <br>
 <br>
@@ -21,7 +36,12 @@
 		                    <h4 class="pull-right"><%=product['precio']%> $.</h4>
 		                    <h4><%= product['nombre'] %>
 		                    </h4>
-		                    <p><%=product['descripcion']%></p>
+		                     <% if product['descripcion'].size <= 70 %>
+		                    	<p><%=product['descripcion']%></p>
+		                    <% else %>
+		                    	<p>...</p>
+		                    <% end %>
+		                    <center><%= link_to 'Eliminar <span class="glyphicon glyphicon-shopping-cart"></span>'.html_safe, deletecar_path(:id => product['id']) , :method => :delete, :class => "delete-to-cart btn btn-default btn-sm" %></center>
 		                </div>
 		            </div>
 		        </div>
@@ -30,7 +50,7 @@
 	    <div class="col-sm-12 col-lg-12 col-md-12" style="margin-top:5%;">
 	    	<center><h3>TOTAL A PAGAR: <strong><%= sum %> $.</strong></h3></center>
 	    	<br>
-	    	<center><button class="btn btn-success"><strong>CONFIRMAR COMPRA</strong></button></center>
+	    	<center><%= link_to 'CONFIRMAR COMPRA', mostrarCheckout_path , :class => "btn btn-success btn-lg" %></center>
 	    </div>
 	<% else %>
 		<center><h2>Actualmente no posee ningún producto en su carrito</h2></center>
