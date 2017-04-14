@@ -30,6 +30,9 @@ class HomeController < ApplicationController
   	
 	elsif vars['action_do'] == "succesfull_addProduct"
 		flash.now["success"] = "Producto creado exitosamente"
+
+	elsif vars['action_do'] == "succesfull_deleteProduct"
+		flash.now["success"] = "Producto eliminado exitosamente"
   	end	
 
   end
@@ -82,7 +85,8 @@ class HomeController < ApplicationController
 	for product_in_car in session[:carro]
 		producto_esta = false
 		for product_in_api in @data
-			if product_in_car == product_in_api
+			puts()
+			if product_in_car == product_in_api['id']
 				producto_esta = true
 			end
 		end
@@ -164,5 +168,27 @@ class HomeController < ApplicationController
   	render(:action => "showPrecio")
   end
 
+  def deleteProd
+
+  	#Para borrar en caso que el producto este en el carro NO SIRVE AUN
+	for product_in_car in session[:carro]
+		if((product_in_car).to_i == (params[:id]).to_i)
+			session[:carro].delete(params[:id])
+		end
+	end
+
+  	#Hago la peticion delete al API
+  	uri = URI('http://127.0.0.1:5000/product/'+params[:id])
+	http = Net::HTTP.new(uri.host, uri.port)
+	req = Net::HTTP::Delete.new(uri.path)
+	res = http.request(req)
+
+	redirect_to controller: 'home', action: 'index', action_do: "succesfull_deleteProduct"
+
+  end
+
+  def updateProd
+
+  end
 
 end

@@ -22,6 +22,9 @@ Rails.application.routes.draw do
 
   get "orden/precio/:id", to: "home#showPrec", as: "showPrecio"
 
+  delete "producto/:id/delete", to: "home#deleteProd", as:"deleteProducto"
+  put "producto/:id/editar", to: "home#updateProd", as:"updateProducto"
+
   root 'home#index', as: "root"
 
 
