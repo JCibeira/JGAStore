@@ -36,7 +36,11 @@ class HomeController < ApplicationController
 
 	elsif vars['action_do'] == "succesfull_editProduct"
 		flash.now["success"] = "Producto editado exitosamente"
+
+	elsif vars['action_do'] == "succesfull_addComment"
+		flash.now["success"] = "Comentario agregado al diario de "+current_user.username
   	end	
+
 
   end
 
@@ -70,6 +74,9 @@ class HomeController < ApplicationController
   end
 
   def showPerfil
+
+  	@comentarios = Comentario.where(:user_id => current_user.id)
+
   	render(:action => 'perfil')
   end
 
@@ -242,28 +249,36 @@ class HomeController < ApplicationController
 
   	@data = []
   	if(session[:carro].size != 0)
-
-  		#Actualizo la cantVendida de los productos
 	  	uri = URI('http://localhost:5000/nueva_compra')
 		req = Net::HTTP::Post.new(uri, 'Content-Type' => 'application/json')
 		req.body = {ids: session[:carro]}.to_json
 		res = Net::HTTP.start(uri.hostname, uri.port) do |http|
 			http.request(req)
 		end
+		
 
-		#Obtengo los productos
-	  	uri = URI('http://localhost:5000/products')
+		uri = URI('http://localhost:5000/products')
 		req = Net::HTTP::Post.new(uri, 'Content-Type' => 'application/json')
 		req.body = {ids: session[:carro]}.to_json
 		res = Net::HTTP.start(uri.hostname, uri.port) do |http|
 			http.request(req)
 		end
+
 		@data = JSON.parse(res.body) #Aqui esta la respuesta del API
 
-		session[:carro].clear #Limpio el carrito
 	end
 
+	session[:carro].clear
+
   	render(:action => "mostrarFactura")
+  end
+
+  def createComentario
+
+  	@user = User.find(current_user.id)
+	@comment = @user.comentarios.create(:cuerpo => params[:cuerpo])
+
+  	redirect_to controller: 'home', action: 'index', action_do: "succesfull_addComment"
   end
 
 end

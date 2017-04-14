@@ -89,7 +89,22 @@
           </form>
         </div>
         <div class="tab-pane fade in" id="tab3">
-          <h3>COMENTARIOS NEGATIVOS AL USUARIO</h3>
+        <% if @comentarios.size > 0 %>
+          <% @comentarios.each do |comentario| %>
+            <h5>Creado por <strong><%= current_user.username %></strong> el <strong><%= comentario['created_at'] %></strong> :</h5>
+              <textarea style="resize: none;" maxlenght="200" name="descripcion" class="form-control"readonly ><%= comentario['cuerpo'] %></textarea>
+              <br>
+          <% end %>
+        <% else %>
+            <center><h5>Actualmente no tienes ninguna entrada en tu diario, ¡empieza a crear una!</h5></center>
+        <% end %>
+          <br>
+          <center><h3><strong>Agregar nueva entrada</strong></h3></center>
+          <%= form_tag(createComentario_path, method: 'post', :id => "form_comment") do %>
+             <textarea style="resize: vertical;" maxlenght="200" name="cuerpo" class="form-control" form="form_comment" placeholder="Cuerpo del nuevo comentario" required></textarea>
+             <br>
+             <center><input type="submit" class="btn btn-success" value="Agregar"></center>
+          <% end %>
         </div>
       </div>
     </div>

@@ -35,6 +35,9 @@ Rails.application.routes.draw do
     get "checkout", to: "home#mostrarCheckout", as: "mostrarCheckout" #Mostrar el checkout
     post "factura", to: "home#mostrarFactura", as: "mostrarFactura"
 
+  #RUTA DE COMENTARIO
+    post "createComentario", to: "home#createComentario", as:"createComentario" #Post nuevo comentario
+
   #ROOT DE LA PAGINA
     root 'home#index', as: "root"
 
