@@ -2,10 +2,10 @@
 
 Para correr el proyecto solo debe clonarlo y realizar el comando rake db:migrate en su consola
 
-Integrantes:
+# Integrantes
 
-Alejandro Barone
-Jesus Cibeira
-Gregorio Castro
+**Alejandro Barone - CI 24206267**
 
+**Jesus Cibeira - CI XXX**
 
+**Gregorio Castro - CI XXX**
