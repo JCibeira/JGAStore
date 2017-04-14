@@ -228,9 +228,6 @@ class HomeController < ApplicationController
   end
 
   def mostrarFactura
-
-  	puts(params[:id_first_name])
-
   	@factura = {nombre: params[:id_first_name], apellido: params[:id_last_name],
   				dir: params[:id_address_line_1], apart: params[:id_address_line_2], 
   				ciudad: params[:id_city], estado: params[:id_state],

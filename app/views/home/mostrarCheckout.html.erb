@@ -10,7 +10,7 @@
                     <a href="/" class="btn btn-info" style="width: 100%;">Añadir + productos</a>
                     <hr/>
                     <div class="shopping_cart">
-                        <form class="form-horizontal" role="form" action="/factura" method="post" id="payment-form">
+                        <%= form_tag(mostrarFactura_path, method: 'post', :class => "form-horizontal", :id => "payment-form") do %>
                             <div class="panel-group" id="accordion">
                                 <div class="panel panel-default">
                                     <div class="panel-heading">
@@ -284,7 +284,7 @@
                             </div>
                     </div>
                 </div>
-                </form>
+                <% end %>
             </div>
         </div>
     </div>
