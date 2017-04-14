@@ -28,6 +28,16 @@
 	}
 }
 
+.seleccionado
+{
+  background-color:#cbffaf;
+}
+
+.seleccionado:hover
+{
+  background-color:#cbffaf !important;
+}
+
 .circle:hover
 {
  width: 25px;

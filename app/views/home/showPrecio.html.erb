@@ -3,24 +3,19 @@
     <p class="lead">JGA Store</p>
     <p>Categorias:</p>
     <div class="list-group">
-        <a href="1" class="list-group-item">Celulares</a>
-        <a href="2" class="list-group-item">Videojuegos</a>
-        <a href="3" class="list-group-item">Deportes</a>
+        <a href="/categoria/1" class="list-group-item">Celulares</a>
+        <a href="/categoria/2" class="list-group-item">Videojuegos</a>
+        <a href="/categoria/3" class="list-group-item">Deportes</a>
     </div>
 
     <p>Ordena:</p>
     <div class="list-group">
-    	<% if session[:alfabeticamente] == 1 %>
-        	<a href="/orden/alfabeticamente/<%= session[:alfabeticamente] %>" class="list-group-item">Alfabeticamente DESC</a>
-        <% else %>
-        	<a href="/orden/alfabeticamente/<%= session[:alfabeticamente] %>" class="list-group-item">Alfabeticamente ASC</a>
-        <% end %>
+        <a href="/orden/alfabeticamente/<%= session[:alfabeticamente] %>" class="list-group-item">Alfabeticamente</a>
        	<% if session[:precio] == 1 %>
-        	 <a href="<%= session[:precio] %>" class="list-group-item">Precio Mayor-Menor</a>
+        	 <a href="<%= session[:precio] %>" class="list-group-item seleccionado">Precio <span class="glyphicon glyphicon-chevron-up"></a>
         <% else %>
-        	<a href="<%= session[:precio] %>" class="list-group-item">Precio Menor-Mayor</a>
+        	<a href="<%= session[:precio] %>" class="list-group-item seleccionado">Precio <span class="glyphicon glyphicon-chevron-down"></a>
         <% end %>
-       
     </div>
 </div>
 

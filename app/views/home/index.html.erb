@@ -10,17 +10,8 @@
 
     <p>Ordena:</p>
     <div class="list-group">
-    	<% if session[:alfabeticamente] == 1 %>
-        	<a href="orden/alfabeticamente/<%= session[:alfabeticamente] %>" class="list-group-item">Alfabeticamente DESC</a>
-        <% else %>
-        	<a href="orden/alfabeticamente/<%= session[:alfabeticamente] %>" class="list-group-item">Alfabeticamente ASC</a>
-        <% end %>
-        <% if session[:precio] == 1 %>
-        	 <a href="orden/precio/<%= session[:precio] %>" class="list-group-item">Precio Mayor-Menor</a>
-        <% else %>
-        	<a href="orden/precio/<%= session[:precio] %>" class="list-group-item">Precio Menor-Mayor</a>
-        <% end %>
-       
+    	<a href="orden/alfabeticamente/<%= session[:alfabeticamente] %>" class="list-group-item">Alfabeticamente</a>
+       	<a href="orden/precio/<%= session[:precio] %>" class="list-group-item">Precio</a>
     </div>
 </div>
 

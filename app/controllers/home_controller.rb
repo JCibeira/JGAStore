@@ -132,6 +132,7 @@ class HomeController < ApplicationController
   def showCat
 	id_categoria = params[:categoria]
 	@products = JSON.parse(open("http://localhost:5000/categories/"+id_categoria).read, {:symbolize_names => true})
+  @category = id_categoria.to_i
  	
  	render(:action => 'showCategory')
   end
