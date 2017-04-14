@@ -201,7 +201,7 @@
 
 <!-- FIN ESTILO DEL PERFIL -->
 
-<div class="container" style="margin-bottom:5%; min-height: 500px;">
+<div class="container">
 	<div class="card">
 		<div class="container-fliud">
 			<div class="wrapper row">
@@ -242,7 +242,6 @@
               <%= link_to 'Editar <span class="glyphicon glyphicon-edit"></span>'.html_safe, updateProducto_path , :method => :put, :class => "edit-product btn btn-default"%>
               <%= link_to 'Eliminar <span class="glyphicon glyphicon-trash"></span>'.html_safe, deleteProducto_path , :method => :delete, :class => "delete-product btn btn-default"%>
 					 	<% end %>
-						<!-- <button class="add-to-cart btn btn-default" type="button">Añadir al carro <span class="glyphicon glyphicon-shopping-cart"></span></button> -->
 					 <% else %>
 						<button disabled class="add-to-cart btn btn-default" type="button">Añadir al carro <span class="glyphicon glyphicon-shopping-cart"></span></button>
 					  <% end %>
