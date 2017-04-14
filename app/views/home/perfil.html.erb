@@ -17,16 +17,15 @@
     <div class="card hovercard">
         <div class="card-background">
             <img class="card-bkimg" alt="" src="http://i.imgur.com/oUWZMCt.png">
-            <!-- http://lorempixel.com/850/280/people/9/ -->
         </div>
         <div class="useravatar">
             <img alt="" src="http://i.imgur.com/oUWZMCt.png">
         </div>
-        <div class="card-info"> <span class="card-title"><%= current_user.nombre %> <%= current_user.apellido %></span>
-
+        <div class="card-info"> 
+          <span class="card-title"><%= current_user.nombre %> <%= current_user.apellido %></span>
         </div>
     </div>
-    <div class="btn-pref btn-group btn-group-justified btn-group-lg" role="group" aria-label="...">
+    <div class="btn-pref btn-group btn-group-justified btn-group-md" role="group" aria-label="...">
         <div class="btn-group" role="group">
             <button type="button" id="stars" class="btn btn-primary" href="#tab1" data-toggle="tab"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>
                 <div class="hidden-xs">Información</div>
@@ -44,7 +43,7 @@
         </div>
     </div>
 
-        <div class="well">
+  <div class="well">
       <div class="tab-content">
         <div class="tab-pane fade in active" id="tab1">
         <center><h3><strong>Datos de Usuario:</strong></h3></center>

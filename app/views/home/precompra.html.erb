@@ -3,8 +3,10 @@
 <br>
 <br>
 <div class="row">
+	<% sum = 0 %>
  	<% if @data.size != 0 %>
     	<% @data.each do |product| %>
+    		<% sum += product['precio'] %>
     		<a href="/producto/<%= product['id'] %>">
 		        <div class="col-xs-8 col-sm-6 col-lg-4 col-md-6">
 		        	<div class="thumbnail product">
@@ -26,6 +28,8 @@
 		    </a>
 	    <% end %>
 	    <div class="col-sm-12 col-lg-12 col-md-12" style="margin-top:5%;">
+	    	<center><h3>TOTAL A PAGAR: <strong><%= sum %> $.</strong></h3></center>
+	    	<br>
 	    	<center><button class="btn btn-success"><strong>CONFIRMAR COMPRA</strong></button></center>
 	    </div>
 	<% else %>
