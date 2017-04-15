@@ -30,14 +30,16 @@
                                                                     <% @data.each do |product| %>
                                                                         <% sum += product['precio'] %>
                                                                         <li><%= product['nombre'] %></li>
-                                                                    <% end %>        
+                                                                    <% end %>
+                                                                    <li>IVA</li>        
                                                                 </ul>
                                                             </td>
                                                             <td>
                                                                 <ul>
                                                                     <% @data.each do |product| %>
-                                                                        <li style="list-style-type: none;"><b><%= product['precio'] %> $.</b></li>
-                                                                     <% end %>  
+                                                                        <li style="list-style-type: none;"><b>$<%= product['precio'] %></b></li>
+                                                                     <% end %>
+                                                                     <li style="list-style-type: none;"><b>$<%= (sum*0.12) %></b></li>  
                                                                  </ul>    
                                                             </td>
                                                         </tr>
@@ -46,7 +48,7 @@
                                                 <div class="col-md-3">
                                                     <div style="text-align: center;">
                                                         <h3>Total a pagar</h3>
-                                                        <h3><span style="color:green;"><%= sum %> $.</span></h3>
+                                                        <h3><span style="color:green;">$<%= sum + (sum*0.12) %></span></h3>
                                                     </div>
                                                 </div>
                                             </div>
@@ -162,8 +164,8 @@
                                                 <td style="width: 175px;">
                                                     <label for="codigo_postal">Código postal:</label></td>
                                                 <td>
-                                                    <input class="form-control" maxlenght="5" id="codigo_postal" name="codigo_postal"
-                                                           required="required" type="text" autocomplete="off"/>
+                                                    <input class="form-control" id="codigo_postal" name="codigo_postal"
+                                                           required="required" type="number" min="1" max="99999" autocomplete="off"/>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -205,7 +207,7 @@
                                         <fieldset>
                                             <legend>¿Cuál método desea usar hoy?</legend>
                                             <div class="form-group">
-                                                <label class="col-sm-3 control-label" for="name_on_card">Nombre impreso en la tarjeta</label>
+                                                <label class="col-sm-3 control-label" for="name_on_card">Nombre impreso en tarjeta</label>
                                                 <div class="col-sm-9">
                                                     <input type="text" class="form-control" required="required" stripe-data="name"
                                                            id="name_on_card" name="name_on_card" placeholder="Nombre impreso en la tarjeta" autocomplete="off">
@@ -214,7 +216,7 @@
                                             <div class="form-group">
                                                 <label class="col-sm-3 control-label" for="card_number">Número de tarjeta</label>
                                                 <div class="col-sm-9">
-                                                    <input type="text" minlength="16" maxlenght="16" required="required" name="card_number" class="form-control" stripe-data="number"
+                                                    <input type="text" type="text" minlength="16" maxlength="16" required="required" name="card_number" class="form-control" stripe-data="number"
                                                            id="card_number" placeholder="Número de tarjeta" autocomplete="off">
                                                     <br/>
                                                     <div><img class="pull-right"
@@ -230,7 +232,6 @@
                                                                 <select class="form-control col-sm-2"
                                                                         data-stripe="exp-month" id="card_exp_month" name="card_exp_month"
                                                                         style="margin-left:5px;" required="required">
-                                                                    <option>Mes</option>
                                                                     <option value="01">Ene (01)</option>
                                                                     <option value="02">Feb (02)</option>
                                                                     <option value="03">Mar (03)</option>
@@ -264,7 +265,7 @@
                                                 <div class="form-group">
                                                     <label class="col-sm-3 control-label" for="cvv">CVC</label>
                                                     <div class="col-sm-3">
-                                                        <input type="text" name="card_cvc" class="form-control" minlenght="3" maxlenght="3" stripe-data="cvc"
+                                                        <input type="number" min="100" max="999" name="card_cvc" class="form-control" stripe-data="cvc"
                                                                id="card_cvc" placeholder="Código de seguridad" autocomplete="off" required="required">
                                                     </div>
                                                 </div>

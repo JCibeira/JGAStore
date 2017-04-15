@@ -230,7 +230,7 @@
 					</div>
 					<h4 class="price">Descripción del producto:</h4>
 					<p class="product-description"><%=@product[:descripcion]%></p>
-					<h4 class="price">precio: <span><%=@product[:precio]%> $.</span></h4>
+					<h4 class="price">precio: <span>$<%=@product[:precio]%></span></h4>
 					<div class="action">
 					 <% if user_signed_in? %>
 					 	<% if !session[:carro].include?(@product[:id]) %>

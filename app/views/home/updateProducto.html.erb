@@ -9,7 +9,7 @@
         <br>
           <form action="/updateProducto" id="form_id" method="POST">
           <div class="row row-centered">
-              <div class="col-md-10 col-centered">
+              <div class="col-xs-11 col-md-9 col-centered">
                 <input type="text" name="id" value="<%=@product[:id]%>" hidden>
                 <input type="text" class="form-control" name="nombre" value="<%=@product[:nombre]%>" minlenght="1" maxlenght="25" placeholder="<%=@product[:nombre]%>" required>
                 <br>

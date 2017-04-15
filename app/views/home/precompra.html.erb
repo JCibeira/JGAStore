@@ -33,7 +33,7 @@
 			                <% end %>
 		                </div>
 		                <div class="caption">
-		                    <h4 class="pull-right"><%=product['precio']%> $.</h4>
+		                    <h4 class="pull-right">$<%=product['precio']%></h4>
 		                    <h4><%= product['nombre'] %>
 		                    </h4>
 		                     <% if product['descripcion'].size <= 70 %>
@@ -48,7 +48,7 @@
 		    </a>
 	    <% end %>
 	    <div class="col-sm-12 col-lg-12 col-md-12" style="margin-top:5%;">
-	    	<center><h3>TOTAL A PAGAR: <strong><%= sum %> $.</strong></h3></center>
+	    	<center><h3>SUBTOTAL A PAGAR: <strong>$<%= sum %></strong></h3></center>
 	    	<br>
 	    	<center><%= link_to 'CONFIRMAR COMPRA', mostrarCheckout_path , :class => "btn btn-success btn-lg" %></center>
 	    </div>
