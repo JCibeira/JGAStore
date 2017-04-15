@@ -24,7 +24,7 @@ body
 @media (max-width: 767px) {
     .col-xs-8 
     {
-        display:inline-block;
+      display:inline-block;
 	    float:none;
 	    text-align:left;
 	    margin-right:-4px;
