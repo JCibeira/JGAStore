@@ -8,4 +8,4 @@ Para correr el proyecto solo debe clonarlo y realizar el comando rake db:migrate
 
 **Jesus Cibeira - CI 24203933**
 
-**Gregorio Castro - CI XXX**
+**Gregorio Castro - CI 24635907**
