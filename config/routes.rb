@@ -36,8 +36,11 @@ Rails.application.routes.draw do
     post "factura", to: "home#mostrarFactura", as: "mostrarFactura"
 
   #RUTA DE COMENTARIO
-    post "createComentario", to: "home#createComentario", as:"createComentario" #Post nuevo comentario
+    post "createComentario", to: "home#createComentario", as: "createComentario" #Post nuevo comentario
 
+  #RUTA DE BUSQUEDA
+    get "busqueda", to: "home#busqueda", as: "nuevaBusqueda"
+    
   #ROOT DE LA PAGINA
     root 'home#index', as: "root"
 

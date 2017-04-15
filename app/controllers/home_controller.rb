@@ -1,4 +1,6 @@
 class HomeController < ApplicationController
+  $API_URL = "localhost:5000" #Url del API
+
   def index
   	vars = request.query_parameters
   	if user_signed_in?  
@@ -17,7 +19,7 @@ class HomeController < ApplicationController
     	session[:precio] = 1
     end
 
-  	@products = JSON.parse(open("http://localhost:5000/product").read, {:symbolize_names => true})
+  	@products = JSON.parse(open("http://"+$API_URL+"/product").read, {:symbolize_names => true})
 
   	if vars['action_do'] == "succesfull_register"
   		flash.now["success"] = "Registro exitoso, por favor inicie sesión"
@@ -54,7 +56,7 @@ class HomeController < ApplicationController
 
   def sendregisterAPI
   	#Realizo la peticion al API con los parametros introducidos
-  	uri = URI('http://localhost:5000/login')
+  	uri = URI('http://'+$API_URL+'/login')
 	req = Net::HTTP::Post.new(uri, 'Content-Type' => 'application/json')
 	req.body = {email: params[:email], password: params[:password]}.to_json
 	res = Net::HTTP.start(uri.hostname, uri.port) do |http|
@@ -83,7 +85,7 @@ class HomeController < ApplicationController
   def prepurchase
   	@data = []
   	if(session[:carro].size != 0)
-	  	uri = URI('http://localhost:5000/products')
+	  	uri = URI('http://'+$API_URL+'/products')
 		req = Net::HTTP::Post.new(uri, 'Content-Type' => 'application/json')
 		req.body = {ids: session[:carro]}.to_json
 		res = Net::HTTP.start(uri.hostname, uri.port) do |http|
@@ -110,7 +112,7 @@ class HomeController < ApplicationController
   
   def showProduct
   	product_id = params[:id]
-  	@product = JSON.parse(open("http://localhost:5000/product/"+product_id).read, {:symbolize_names => true})
+  	@product = JSON.parse(open("http://"+$API_URL+"/product/"+product_id).read, {:symbolize_names => true})
   	render(:action => 'product')
   end
 
@@ -129,7 +131,7 @@ class HomeController < ApplicationController
   end
 
   def addProducto
-	uri = URI('http://localhost:5000/product')
+	uri = URI('http://'+$API_URL+'/product')
 	req = Net::HTTP::Post.new(uri, 'Content-Type' => 'application/json')
 	req.body = {nombre: params[:nombre], precio: params[:precio], 
 				foto: params[:foto], idCategoria: ((params[:idCategoria]).to_i), 
@@ -145,7 +147,7 @@ class HomeController < ApplicationController
 
   def showCat
 	id_categoria = params[:categoria]
-	@products = JSON.parse(open("http://localhost:5000/categories/"+id_categoria).read, {:symbolize_names => true})
+	@products = JSON.parse(open("http://"+$API_URL+"/categories/"+id_categoria).read, {:symbolize_names => true})
   	@category = id_categoria.to_i
  	
  	render(:action => 'showCategory')
@@ -159,7 +161,7 @@ class HomeController < ApplicationController
   	end
 
   	id_alfabeticamente = params[:id]
-  	@products = JSON.parse(open("http://localhost:5000/product_alfabeticamente/"+id_alfabeticamente).read, {:symbolize_names => true})
+  	@products = JSON.parse(open("http://"+$API_URL+"/product_alfabeticamente/"+id_alfabeticamente).read, {:symbolize_names => true})
   
   	render(:action => "showAlfabeticamente")
   end
@@ -173,7 +175,7 @@ class HomeController < ApplicationController
   	end
   	
   	id_precio = params[:id]
-  	@products = JSON.parse(open("http://localhost:5000/product_precio/"+id_precio).read, {:symbolize_names => true})
+  	@products = JSON.parse(open("http://"+$API_URL+"/product_precio/"+id_precio).read, {:symbolize_names => true})
   
   	render(:action => "showPrecio")
   end
@@ -188,7 +190,7 @@ class HomeController < ApplicationController
 	end
 
   	#Hago la peticion delete al API
-  	uri = URI('http://127.0.0.1:5000/product/'+params[:id])
+  	uri = URI('http://'+$API_URL+'/product/'+params[:id])
 	http = Net::HTTP.new(uri.host, uri.port)
 	req = Net::HTTP::Delete.new(uri.path)
 	res = http.request(req)
@@ -200,13 +202,13 @@ class HomeController < ApplicationController
   def updateProdshow
 
 	product_id = params[:id]
-  	@product = JSON.parse(open("http://localhost:5000/product/"+product_id).read, {:symbolize_names => true})
+  	@product = JSON.parse(open("http://"+$API_URL+"/product/"+product_id).read, {:symbolize_names => true})
   	render(:action => "updateProducto")
 
   end
 
   def updateProdsend
-  	uri = URI('http://127.0.0.1:5000/product/'+params[:id])
+  	uri = URI('http://'+$API_URL+'/product/'+params[:id])
   	req = Net::HTTP::Put.new(uri, 'Content-Type' => 'application/json')
 	req.body = {nombre: params[:nombre], precio: params[:precio], 
 				foto: params[:foto], idCategoria: ((params[:idCategoria]).to_i), 
@@ -222,7 +224,7 @@ class HomeController < ApplicationController
   def mostrarCheckout
   	@data = []
   	if(session[:carro].size != 0)
-	  	uri = URI('http://localhost:5000/products')
+	  	uri = URI('http://'+$API_URL+'/products')
 		req = Net::HTTP::Post.new(uri, 'Content-Type' => 'application/json')
 		req.body = {ids: session[:carro]}.to_json
 		res = Net::HTTP.start(uri.hostname, uri.port) do |http|
@@ -246,7 +248,7 @@ class HomeController < ApplicationController
 
   	@data = []
   	if(session[:carro].size != 0)
-	  	uri = URI('http://localhost:5000/nueva_compra')
+	  	uri = URI('http://'+$API_URL+'/nueva_compra')
 		req = Net::HTTP::Post.new(uri, 'Content-Type' => 'application/json')
 		req.body = {ids: session[:carro]}.to_json
 		res = Net::HTTP.start(uri.hostname, uri.port) do |http|
@@ -254,7 +256,7 @@ class HomeController < ApplicationController
 		end
 		
 
-		uri = URI('http://localhost:5000/products')
+		uri = URI('http://'+$API_URL+'/products')
 		req = Net::HTTP::Post.new(uri, 'Content-Type' => 'application/json')
 		req.body = {ids: session[:carro]}.to_json
 		res = Net::HTTP.start(uri.hostname, uri.port) do |http|
@@ -276,6 +278,20 @@ class HomeController < ApplicationController
 	@comment = @user.comentarios.create(:cuerpo => params[:cuerpo])
 
   	redirect_to controller: 'home', action: 'index', action_do: "succesfull_addComment"
+  end
+
+  def busqueda
+
+  		uri = URI('http://'+$API_URL+'/producto_buscar')
+		req = Net::HTTP::Post.new(uri, 'Content-Type' => 'application/json')
+		req.body = {query: params[:busqueda]}.to_json
+		res = Net::HTTP.start(uri.hostname, uri.port) do |http|
+			http.request(req)
+		end
+
+		@products = JSON.parse(res.body) #Aqui esta la respuesta del API
+  		
+  		render(:action => "mostrarBusqueda")
   end
 
 end

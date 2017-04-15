@@ -345,6 +345,24 @@ class ActualizarVenta(Resource):
 		else:
 			return errors['ProductoNotFound'], 404 #REVISAR
 
+class ProductoBusqueda(Resource):
+	def post(self):
+		productos = request.get_json()
+
+		if(productos['query'] != None):
+			con = mysql.connect()
+			cursor = con.cursor()
+
+			cursor.execute("SELECT * FROM producto WHERE " +
+				"nombre LIKE '%"+productos['query']+"%' OR descripcion LIKE '%"+productos['query']+"%'" )
+
+			
+			data = cursor.fetchall()
+			return ([dict(id=producto[0], nombre=producto[1], descripcion=producto[2], foto=producto[3], precio=producto[4], cantVendida=producto[5], idCategoria=producto[6]) for producto in data])
+
+		else:
+			return errors['ProductoNotFound'], 404 #REVISAR
+
 
 
 
@@ -355,10 +373,11 @@ api.add_resource(ProductList, '/product')
 api.add_resource(ProductAlfabeticamente, '/product_alfabeticamente/<string:idAlfabeticamente>')
 api.add_resource(ProductPrecio, '/product_precio/<string:idPrecio>')
 api.add_resource(ActualizarVenta, '/nueva_compra')
+api.add_resource(ProductoBusqueda, '/producto_buscar')
 api.add_resource(Categories, '/categories/<string:idC>')
 api.add_resource(MultipleProducts, '/products')
 api.add_resource(InfoUser, '/user')
 
 
 if __name__ == '__main__':
-	app.run(debug=True)
+	app.run(debug=True) # , host="192.168.0.105" ->Para otra IP
